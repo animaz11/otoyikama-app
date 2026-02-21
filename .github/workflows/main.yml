@@ -17,24 +17,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # Flutter sürümünü boş bırakıyoruz ki Flet en güncelini kendi kursun
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          channel: 'stable'
 
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pip
-
-      - name: Install Flet and Dependencies
+      - name: Install Flet
         run: |
           python3 -m pip install flet
 
       - name: Build APK
         run: |
-          # Flet build komutunu daha detaylı çalıştırıyoruz
-          flet build apk --verbose
+          # --yes komutu ile "yükleyeyim mi?" sorularına otomatik 'evet' diyoruz
+          flet build apk --yes --verbose
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
